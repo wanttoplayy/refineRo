@@ -55,6 +55,15 @@ export const RefineSimulator = () => {
     }, 1000);
   };
 
+  const handleReset = () => {
+    setCurrentLevel(4);
+    setTargetLevel(13);
+    setCoinsSpent(4);
+    setConsecutiveFailures(0);
+    setRefineResult(null);
+    localStorage.removeItem('refineSimulatorData');
+  };
+
   const getRefineMessage = (result: 'success' | 'fail') => {
     if (result === 'success') {
       return 'ติดไปดิ';
@@ -93,15 +102,25 @@ export const RefineSimulator = () => {
             onChange={(e) => setTargetLevel(parseInt(e.target.value))}
             label="Target Level"
           />
-          <Button
-            onClick={handleRefine}
-            disabled={isRefining || currentLevel >= targetLevel}
-            variant="default"
-            size="lg"
-            className="w-full"
-          >
-            {isRefining ? 'Refining...' : 'Refine'}
-          </Button>
+          <div className="flex space-x-4">
+            <Button
+              onClick={handleRefine}
+              disabled={isRefining || currentLevel >= targetLevel}
+              variant="default"
+              size="lg"
+              className="w-full"
+            >
+              {isRefining ? 'Refining...' : 'Refine'}
+            </Button>
+            <Button
+              onClick={handleReset}
+              variant="destructive"
+              size="lg"
+              className="w-full"
+            >
+              Reset
+            </Button>
+          </div>
           <p>ใช้ Booster Coins ไปแล้ว : {coinsSpent}</p>
           {currentLevel >= targetLevel && (
             <p>Congratulations! You reached level {targetLevel}.</p>
